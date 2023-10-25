@@ -15,12 +15,6 @@ export class Profiles1698178031977 implements MigrationInterface {
                         generationStrategy: "increment",
                     },
                     {
-                        name: "email",
-                        type: "varchar",
-                        length:"100",
-                        isNullable:true
-                    },
-                    {
                         name: "birthdate",
                         type: "date",
                     },
@@ -38,6 +32,7 @@ export class Profiles1698178031977 implements MigrationInterface {
                     {
                         name: "user_id",
                         type: "int",
+                        isUnique:true
                     },
                 ],
                 foreignKeys: [

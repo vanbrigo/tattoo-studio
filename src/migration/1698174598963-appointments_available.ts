@@ -1,4 +1,4 @@
-import { MigrationInterface, QueryRunner, Table } from "typeorm"
+import { MigrationInterface, QueryRunner, Table, TableIndex } from "typeorm"
 
 export class AppointmentsAvailable1698174598963 implements MigrationInterface {
 
@@ -20,7 +20,8 @@ export class AppointmentsAvailable1698174598963 implements MigrationInterface {
                     },
                     {
                         name: "time",
-                        type: "time",
+                        type: "enum",
+                        enum:["10:00","11:00","14:00","15:00","16:00"]
                     },
                     {
                         name: "tattoo_artist_id",
@@ -42,11 +43,17 @@ export class AppointmentsAvailable1698174598963 implements MigrationInterface {
                 ]
             }),
             true
-        );
+        )
+        await queryRunner.createIndex('appointments_available', new TableIndex({
+            name: 'unique_date_time_tattoo_artist_id',
+            columnNames: ['date', 'time', 'tattoo_artist_id'],
+            isUnique: true,
+          }));
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.dropTable("appointments_available");
+        await queryRunner.dropTable("appointments_available")
+        await queryRunner.dropIndex("appointments_available","unique_date_time_tattoo_artist_id")
     }
 
 }

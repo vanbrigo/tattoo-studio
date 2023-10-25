@@ -20,15 +20,21 @@ export class Users1698173399028 implements MigrationInterface {
                         length: "100",
                     },
                     {
-                        name: "phone_number",
+                        name: "email",
                         type: "varchar",
-                        length: "20",
+                        length: "100",
                         isUnique:true
                     },
                     {
                         name: "password",
                         type: "varchar",
                         length: "255"
+                    },
+                    {
+                        name: "phone_number",
+                        type: "varchar",
+                        length:"100",
+                        isNullable:true
                     },
                     {
                         name: "role",
@@ -45,6 +51,12 @@ export class Users1698173399028 implements MigrationInterface {
                         name: "joined_at",
                         type: "timestamp",
                         default: "CURRENT_TIMESTAMP"
+                    },
+                    {
+                        name: "updated_at",
+                        type: "timestamp",
+                        default: "CURRENT_TIMESTAMP",
+                        onUpdate: "CURRENT_TIMESTAMP"
                     },
                 ],
             }),
