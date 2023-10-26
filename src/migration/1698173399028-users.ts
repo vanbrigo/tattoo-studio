@@ -33,8 +33,7 @@ export class Users1698173399028 implements MigrationInterface {
                     {
                         name: "phone_number",
                         type: "varchar",
-                        length:"100",
-                        isNullable:true
+                        length:"20"
                     },
                     {
                         name: "role",
