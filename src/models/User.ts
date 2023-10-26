@@ -1,4 +1,8 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm"
+import { BaseEntity, Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm"
+import { Appointment_available } from "./Appointment_available"
+import { Profile } from "./Profile"
+import { Portfolio } from "./Portfolio"
+import { Appointment } from "./Appointment"
 
 @Entity("users") 
 export class User extends BaseEntity{
@@ -28,5 +32,15 @@ export class User extends BaseEntity{
   
   @Column()
   updated_at!: Date
+
+  @OneToMany(() => Appointment_available, (appointment_available) => appointment_available.user)
+  appointment_available!: Appointment_available[]
+
+  @OneToMany(() => Portfolio, (portfolio) => portfolio.user)
+  portfolio!: Portfolio[]
+
+  @OneToMany(() => Appointment, (appointment) => appointment.user)
+  appointments!: Appointment[];
+
 
 }

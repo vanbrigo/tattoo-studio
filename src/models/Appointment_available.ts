@@ -1,4 +1,5 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm"
+import { BaseEntity, Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm"
+import { User } from "./User"
 
 @Entity("appointments_available")
 export class Appointment_available extends BaseEntity{
@@ -16,5 +17,9 @@ export class Appointment_available extends BaseEntity{
 
   @Column()
   is_available!: boolean
+
+  @ManyToOne(() => User, (user) => user.appointment_available)
+  @JoinColumn({ name: "tattoo_artist_id" })
+  user!: User
 
 }
