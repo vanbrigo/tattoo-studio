@@ -1,12 +1,19 @@
 import { Request, Response } from "express";
 import { Appointment_available } from "../models/Appointment_available";
+import { User } from "../models/User";
 
 
 
 const newAppointmentAvailable = async (req: Request, res: Response) => {
     try {
         const { date,time,tattoo_artist_id }=req.body
-
+        const tattooArtist= await User.findOneBy({id:tattoo_artist_id})
+        if(tattooArtist?.role !== 'tattoo_artist'){
+            return res.json({
+                success:true,
+                message:'This user is not a tattoo artist'
+            })
+        }
         const newAppointment = await Appointment_available.create({
             date,
             time,
