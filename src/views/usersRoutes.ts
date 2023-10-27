@@ -1,12 +1,15 @@
 import { Router } from "express";
-import { login, register } from "../controllers/usersControllers";
+import { login, register, updateUser } from "../controllers/usersControllers";
+import { auth } from "../middlewares/auth";
 
 const router = Router()
 
-router.post('/register',register)
-router.post('/login',login)
-router.post('/profile', )
 router.get('/profile', )
 router.get('/portfolio',)
+router.post('/register',register)
+router.post('/login',login)
+router.post('/profile',)
+router.put('/update',auth,updateUser)
+
 
 export { router }

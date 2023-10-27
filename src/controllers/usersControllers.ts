@@ -35,7 +35,7 @@ const register = async (req: Request, res: Response) => {
 
         return res.json({
             success: true,
-            message: `User ${newUser.name}created succesfully`
+            message: `User ${newUser.name} created succesfully`
         })
     } catch (error) {
         return res.json(
@@ -108,12 +108,14 @@ const login = async (req: Request, res: Response) => {
 
 const updateUser = async(req: Request, res: Response) => {
     try {
-        const task = await User.findOneBy(
-            {
-              id: req.token.id
-            }
-          )
+        const userToUpdate=req.token.id
+        const userUpdated= await User.update({id:userToUpdate}, req.body)
+    if (userUpdated.affected) {
+        return res.json(`User successfully updated`) 
+      }
+      return res.json('User cant be update')  
 
     }catch{}
 }
-export {register,login}
+
+export {register,login,updateUser}
