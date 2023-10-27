@@ -73,5 +73,16 @@ const deleteAppointmentAvailable = async(req:Request, res:Response)=>{
     }
 }
 
+const getAllAppointmentsAvailable = async(req:Request, res:Response)=>{
+    try {
+        const appointmentsAvailable = await Appointment_available.find()
+        const appointmentAvailable= appointmentsAvailable.filter(appointment=>appointment.is_available)
+        if(appointmentAvailable)
+        return res.send(appointmentAvailable)
+    } catch (error) {
+        return res.send('error')
+    }
+}
 
-export {newAppointmentAvailable,updateAppointmentAvailable,deleteAppointmentAvailable}
+
+export {newAppointmentAvailable,updateAppointmentAvailable,deleteAppointmentAvailable,getAllAppointmentsAvailable}
