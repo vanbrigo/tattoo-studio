@@ -141,4 +141,30 @@ const getAllAppointmentsByTattooArtistId = async(req: Request, res: Response) =>
     }
   }
 
-export {register,login,updateUser,getAllAppointmentsByTattooArtistId}
+  const getAllTattooArtists = async (req: Request, res: Response) => {
+    try {
+      const tattooArtists = await User.find({
+        where:{role:"tattoo_artist"}
+      })
+  
+      return res.json(
+        {
+          success: true,
+          message: "Tattoo artists retrieved",
+          data: tattooArtists
+        }
+      )
+  
+    } catch (error) {
+      return res.json(
+        {
+          success: false,
+          message: "Tattoo artists cant be retrieved",
+          error: error
+        }
+      )
+    }
+  }
+  
+
+export {register,login,updateUser,getAllAppointmentsByTattooArtistId,getAllTattooArtists}
