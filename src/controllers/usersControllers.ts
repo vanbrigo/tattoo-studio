@@ -105,4 +105,15 @@ const login = async (req: Request, res: Response) => {
         )
     }
 }
+
+const updateUser = async(req: Request, res: Response) => {
+    try {
+        const task = await User.findOneBy(
+            {
+              id: req.token.id
+            }
+          )
+
+    }catch{}
+}
 export {register,login}
