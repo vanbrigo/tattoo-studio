@@ -2,6 +2,8 @@ import { Request, Response } from "express"
 import { User } from "../models/User"
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
+import { Appointment } from "../models/Appointment"
+import { Appointment_available } from "../models/Appointment_available"
 
 
 const register = async (req: Request, res: Response) => {
@@ -118,4 +120,25 @@ const updateUser = async(req: Request, res: Response) => {
     }catch{}
 }
 
-export {register,login,updateUser}
+const getAllAppointmentsByTattooArtistId = async(req: Request, res: Response) => {
+    try {
+      const appointments = await Appointment_available.findBy(
+        {
+          tattoo_artist_id: req.token.id
+        }
+      )
+      return res.json({
+        success: true,
+        message: "Appointments by user retrieved",
+        data: appointments
+      })
+    } catch (error) {
+      return res.json({
+        success: false,
+        message: "Appointments cant by user retrieved",
+        error: error
+      })
+    }
+  }
+
+export {register,login,updateUser,getAllAppointmentsByTattooArtistId}
