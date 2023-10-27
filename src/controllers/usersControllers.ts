@@ -4,6 +4,7 @@ import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 import { Appointment } from "../models/Appointment"
 import { Appointment_available } from "../models/Appointment_available"
+import { Profile } from "../models/Profile"
 
 
 const register = async (req: Request, res: Response) => {
@@ -165,6 +166,39 @@ const getAllAppointmentsByTattooArtistId = async(req: Request, res: Response) =>
       )
     }
   }
+
+  const addProfile = async(req: Request, res: Response) => {
+    try {
+      const {birthdate,gender,address}=req.body
+      const id=req.token.id
+
+      const profile = await Profile.create(
+        {
+          birthdate,
+          gender,
+          address,
+          user_id:id
+        }
+      ).save()
+  
+      return res.json(
+        {
+          success: true,
+          message: "Profile created successfully",
+          data: profile
+        }
+      )
+      
+    } catch (error) {
+      return res.json(
+        {
+          success: false,
+          message: "Profile cant be created",
+          error: error
+        }
+      )
+    }
+  }
   
 
-export {register,login,updateUser,getAllAppointmentsByTattooArtistId,getAllTattooArtists}
+export {register,login,updateUser,getAllAppointmentsByTattooArtistId,getAllTattooArtists,addProfile}
