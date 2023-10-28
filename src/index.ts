@@ -3,6 +3,7 @@ import { AppDataSource } from "./database"
 import { router as routerUsers} from "./views/usersRoutes"
 import { router as routerAppointmentsAvailable } from "./views/appointments_availableRoutes"
 
+
 const app=express()
 app.use(express.json())
 const PORT = process.env.PORT || 6000

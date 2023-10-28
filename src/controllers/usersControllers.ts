@@ -9,10 +9,7 @@ import { Profile } from "../models/Profile"
 
 const register = async (req: Request, res: Response) => {
     try {
-        const name = req.body.name;
-        const email = req.body.email;
-        const password = req.body.password
-        const phone_number = req.body.phone_number
+        const {name,email,password,phone_number} = req.body
 
         const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/
         const passwordRegex = /^(?=.*[A-Z])(?=.*\d).{8,}$/

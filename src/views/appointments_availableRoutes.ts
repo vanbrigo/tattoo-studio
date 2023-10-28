@@ -5,7 +5,7 @@ import { auth } from "../middlewares/auth"
 
 const router = Router()
 
-router.get('/getAllAppointmentsAvailable',getAllAppointmentsAvailable)
+router.get('/all',getAllAppointmentsAvailable)
 router.post('/new',auth,isTattooArtist,newAppointmentAvailable)
 router.put('/update',auth,isTattooArtist,updateAppointmentAvailable)
 router.delete('/delete',auth,isTattooArtist,deleteAppointmentAvailable)
