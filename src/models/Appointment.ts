@@ -10,7 +10,7 @@ export class Appointment extends BaseEntity{
   appointment_available_id!: number
 
   @Column()
-  purpose!: boolean
+  purpose!: string
 
   @Column()
   user_id!: number

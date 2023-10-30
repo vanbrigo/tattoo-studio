@@ -19,7 +19,7 @@ const newAppointmentAvailable = async (req: Request, res: Response) => {
             time,
             tattoo_artist_id
         }).save()
-        console.log(newAppointment)
+
 
         return res.json({
             success: true,

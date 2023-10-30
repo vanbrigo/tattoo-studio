@@ -1,7 +1,9 @@
 import express  from "express"
+import 'dotenv/config'
 import { AppDataSource } from "./database"
 import { router as routerUsers} from "./views/usersRoutes"
 import { router as routerAppointmentsAvailable } from "./views/appointments_availableRoutes"
+
 
 
 const app=express()
