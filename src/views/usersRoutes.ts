@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { addProfile, getAllAppointmentsByTattooArtistId, getAllTattooArtists, getAppointmentsTakenByTattooArtistId, login, register, updateUser } from "../controllers/usersControllers";
+import { addProfile, getAllAppointmentsByTattooArtistId, getAllAppointmentsByUserId, getAllTattooArtists, getAppointmentsTakenByTattooArtistId, login, register, updateUser } from "../controllers/usersControllers";
 import { auth } from "../middlewares/auth";
 import { cancelAppointment, newAppointmentTaken } from "../controllers/appointmentsControllers";
 import { isTattooArtist } from "../middlewares/isTattooArtist";
@@ -11,6 +11,7 @@ router.get('/portfolio',)
 router.get('/tattooArtist/appointments',auth,getAllAppointmentsByTattooArtistId)
 router.get('/tattooArtistsAvailable',getAllTattooArtists)
 router.get('/tattooArtist/appointmentsTaken',auth,isTattooArtist,getAppointmentsTakenByTattooArtistId)
+router.get('/myAppointments',auth,getAllAppointmentsByUserId )
 router.post('/register',register)
 router.post('/login',login)
 router.post('/profile',auth,addProfile)

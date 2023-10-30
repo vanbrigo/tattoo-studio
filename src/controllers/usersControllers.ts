@@ -140,6 +140,27 @@ const getAllAppointmentsByTattooArtistId = async(req: Request, res: Response) =>
     }
   }
 
+  const getAllAppointmentsByUserId = async(req: Request, res: Response) => {
+    try {
+      const appointments = await Appointment.find({
+        where:{
+          user_id: req.token.id
+        }
+    })
+      return res.json({
+        success: true,
+        message: "Appointments by user retrieved",
+        data: appointments
+      })
+    } catch (error) {
+      return res.json({
+        success: false,
+        message: "Appointments cant by user retrieved",
+        error: error
+      })
+    }
+  }
+
   const getAppointmentsTakenByTattooArtistId= async(req: Request, res: Response) => {
     try {
       const today = new Date()
@@ -234,4 +255,12 @@ const getAllAppointmentsByTattooArtistId = async(req: Request, res: Response) =>
   }
   
 
-export {register,login,updateUser,getAllAppointmentsByTattooArtistId,getAllTattooArtists,addProfile,getAppointmentsTakenByTattooArtistId}
+export {
+  register,
+  login,
+  updateUser,
+  getAllAppointmentsByTattooArtistId,
+  getAllTattooArtists, addProfile,
+  getAppointmentsTakenByTattooArtistId,
+  getAllAppointmentsByUserId
+}
