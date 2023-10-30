@@ -70,8 +70,7 @@ const cancelAppointment = async(req:Request, res:Response)=>{
             await Appointment_available.update({id:appointmentToCancel?.appointment_available_id},{is_available:true})
             return res.json({
                 success:true,
-                message:'Appointment canceled successfully',
-                data:appointmentCanceled
+                message:'Appointment canceled successfully'
             })
         }
         

@@ -1,12 +1,22 @@
 import { Request, Response } from "express";
 import { Appointment_available } from "../models/Appointment_available";
-import { User } from "../models/User";
+import { User } from "../models/User"
+import { MoreThanOrEqual } from 'typeorm'
 
 
 
 const newAppointmentAvailable = async (req: Request, res: Response) => {
     try {
+        const today = new Date()
+        today.setHours(0, 0, 0, 0)
         const { date,time,tattoo_artist_id }=req.body
+        const appointmentDate=new Date(date)
+        if(appointmentDate<today){
+            return res.json({
+                success:true,
+                message:'You need to insert a valid date'
+            })
+        }
         const tattooArtist= await User.findOneBy({id:tattoo_artist_id})
         if(tattooArtist?.role !== 'tattoo_artist'){
             return res.json({

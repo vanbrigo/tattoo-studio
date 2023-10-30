@@ -5,6 +5,7 @@ import jwt from "jsonwebtoken"
 import { Appointment } from "../models/Appointment"
 import { Appointment_available } from "../models/Appointment_available"
 import { Profile } from "../models/Profile"
+import { MoreThanOrEqual } from 'typeorm'
 
 
 const register = async (req: Request, res: Response) => {
@@ -139,6 +140,41 @@ const getAllAppointmentsByTattooArtistId = async(req: Request, res: Response) =>
     }
   }
 
+  const getAppointmentsTakenByTattooArtistId= async(req: Request, res: Response) => {
+    try {
+      const today = new Date()
+      today.setHours(0, 0, 0, 0)
+      const appointmentsTaken = await Appointment_available.find({
+        where:{ 
+          tattoo_artist_id: req.token.id,
+          is_available: false,
+          date: MoreThanOrEqual(today)
+        },
+        select:{
+          date:true,
+          time:true,
+          appointment:{
+            purpose:true
+          }
+        },
+        relations:{
+          appointment:true,
+        }
+    })
+      return res.json({
+        success: true,
+        message: "Appointments by user retrieved",
+        data:appointmentsTaken
+      })
+    } catch (error) {
+      return res.json({
+        success: false,
+        message: "Appointments cant by user retrieved",
+        error: error
+      })
+    }
+  }
+
   const getAllTattooArtists = async (req: Request, res: Response) => {
     try {
       const tattooArtists = await User.find({
@@ -198,4 +234,4 @@ const getAllAppointmentsByTattooArtistId = async(req: Request, res: Response) =>
   }
   
 
-export {register,login,updateUser,getAllAppointmentsByTattooArtistId,getAllTattooArtists,addProfile}
+export {register,login,updateUser,getAllAppointmentsByTattooArtistId,getAllTattooArtists,addProfile,getAppointmentsTakenByTattooArtistId}
