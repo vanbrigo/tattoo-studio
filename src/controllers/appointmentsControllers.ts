@@ -10,6 +10,7 @@ const newAppointmentTaken = async (req: Request, res: Response) => {
 
         const appointmentToTake= await Appointment_available.findOneBy({id:appointment_available_id})
         if(!appointmentToTake?.is_available){
+            console.log(appointmentToTake)
             return res.json({
                 success:true,
                 message:'This appointment is not available'
@@ -41,28 +42,39 @@ const newAppointmentTaken = async (req: Request, res: Response) => {
 const cancelAppointment = async(req:Request, res:Response)=>{
     try {
         const appointmentIdToCancel = req.body.id
-        const appointmentToCancel= await Appointment.findOne(
+        const user_id= req.token.id
+        const appointmentToCancel = await Appointment.findOne(
             {
-                where:{
-                    id:appointmentIdToCancel
-                },
-                relations: {
-
-                }
+              where: {
+                id: appointmentIdToCancel
+              },
+              relations: {
+                appointmentA: true
+              }
             }
-            )
+          )
+        
+        if(user_id !== appointmentToCancel!.user_id){
+            console.log(appointmentToCancel!.user_id)
+            return res.json({
+                success:true,
+                message:'Appointment not found'
+            })
+        }
         const appointmentCanceled = await Appointment.delete(
             {
             id:appointmentIdToCancel
             }
         )
         if(appointmentCanceled.affected){
-            return res.send({
+            await Appointment_available.update({id:appointmentToCancel?.appointment_available_id},{is_available:true})
+            return res.json({
                 success:true,
                 message:'Appointment canceled successfully',
                 data:appointmentCanceled
             })
         }
+        
         return res.send('Appointment cant be cancel') 
 
     } catch (error) {
