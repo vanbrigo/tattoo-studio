@@ -175,12 +175,11 @@ const getAllAppointmentsByTattooArtistId = async(req: Request, res: Response) =>
           date:true,
           time:true,
           appointment:{
-            purpose:true
+            purpose:true,
+            user:{name:true,phone_number:true}
           }
         },
-        relations:{
-          appointment:true,
-        }
+        relations: ["appointment","appointment.user"]
     })
       return res.json({
         success: true,
