@@ -108,33 +108,57 @@ const login = async (req: Request, res: Response) => {
 }
 
 const updateUser = async(req: Request, res: Response) => {
-    try {
-        const userToUpdate=req.token.id
-        const userUpdated= await User.update({id:userToUpdate}, req.body)
+  try {
+    const userToUpdate = req.token.id
+    const userUpdated = await User.update({ id: userToUpdate }, req.body)
     if (userUpdated.affected) {
-        return res.json(`User successfully updated`) 
-      }
-      return res.json('User cant be update')  
+      return res.json(`User successfully updated`)
+    }
+    return res.json('User cant be update')
 
-    }catch{}
+  } catch {
+    return res.json('User cant be update')
+  }
+     
+}
+
+const newTattooArtist = async(req: Request, res: Response) => {
+  try {
+    const userToUpdate = req.body.id
+    const userUpdated = await User.update({ id: userToUpdate }, req.body)
+    if (userUpdated.affected) {
+      return res.json(`New tattoo artist created`)
+    }
+    return res.json('User cant be update')
+
+  } catch {
+    return res.json('User cant be update')
+  }
 }
 
 const getAllAppointmentsByTattooArtistId = async(req: Request, res: Response) => {
     try {
-      const appointments = await Appointment_available.findBy(
-        {
+      const appointments = await Appointment_available.find({
+        where:{
           tattoo_artist_id: req.token.id
-        }
-      )
+        },
+        select:{
+          id:true,
+          date:true,
+          time:true,
+          appointment:{purpose:true}
+        },
+        relations:['appointment'] 
+    })
       return res.json({
         success: true,
-        message: "Appointments by user retrieved",
+        message: "All appointments available retrieved as tattoo artist",
         data: appointments
       })
     } catch (error) {
       return res.json({
         success: false,
-        message: "Appointments cant by user retrieved",
+        message: "Appointments available cant be retrieved",
         error: error
       })
     }
@@ -145,7 +169,16 @@ const getAllAppointmentsByTattooArtistId = async(req: Request, res: Response) =>
       const appointments = await Appointment.find({
         where:{
           user_id: req.token.id
-        }
+        },
+        select:{
+          purpose:true,
+          appointmentA:{
+            date:true,
+            time:true,
+            user:{name:true}
+          }
+        },
+        relations:['appointmentA','appointmentA.user']
     })
       return res.json({
         success: true,
@@ -252,6 +285,29 @@ const getAllAppointmentsByTattooArtistId = async(req: Request, res: Response) =>
       )
     }
   }
+
+  const deleteUser = async(req:Request, res:Response)=>{
+    try {
+        const userIdToDelete = req.body.id
+        const userDeleted = await User.delete(
+            {
+            id:userIdToDelete
+            }
+        )
+        if(userDeleted.affected){
+            return res.send({
+                success:true,
+                message:'User deleted successfully'
+            })
+        }
+        return res.send('User cant be deleted') 
+
+    } catch (error) {
+        return res.send(error)
+    }
+}
+
+  
   
 
 export {
@@ -261,5 +317,7 @@ export {
   getAllAppointmentsByTattooArtistId,
   getAllTattooArtists, addProfile,
   getAppointmentsTakenByTattooArtistId,
-  getAllAppointmentsByUserId
+  getAllAppointmentsByUserId,
+  newTattooArtist,
+  deleteUser
 }
