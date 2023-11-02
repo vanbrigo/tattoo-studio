@@ -338,6 +338,20 @@ const getAllClients = async (req: Request, res: Response) => {
   }
 }
 
+const updateProfile = async(req: Request, res: Response) => {
+  try {
+    const userToUpdate = req.token.id
+    const userUpdated = await Profile.update({ id: userToUpdate }, req.body)
+    if (userUpdated.affected) {
+      return res.json(`Profile successfully updated`)
+    }
+    return res.json('Profile cant be update')
+
+  } catch {
+    return res.json('Profile cant be update')
+  }
+     
+}
   
   
 
