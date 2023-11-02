@@ -2,7 +2,7 @@ import { Router } from "express";
 import { addProfile,  
     deleteUser, 
     getAllAppointmentsByTattooArtistId, 
-    getAllAppointmentsByUserId, getAllTattooArtists, 
+    getAllAppointmentsByUserId, getAllClients, getAllTattooArtists, 
     getAppointmentsTakenByTattooArtistId, 
     login, 
     newTattooArtist, 
@@ -21,6 +21,7 @@ router.get('/tattooArtist/appointments',auth,getAllAppointmentsByTattooArtistId)
 router.get('/tattooArtistsAvailable',getAllTattooArtists)
 router.get('/tattooArtist/appointmentsTaken',auth,isTattooArtist,getAppointmentsTakenByTattooArtistId)
 router.get('/myAppointments',auth,getAllAppointmentsByUserId )
+router.get('/superAdmin/clients',auth,isSuperAdmin,getAllClients)
 router.post('/register',register)
 router.post('/login',login)
 router.post('/profile',auth,addProfile)
