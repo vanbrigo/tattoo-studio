@@ -12,7 +12,7 @@ import { auth } from "../middlewares/auth";
 import { cancelAppointment, newAppointmentTaken } from "../controllers/appointmentsControllers";
 import { isTattooArtist } from "../middlewares/isTattooArtist";
 import { isSuperAdmin } from "../middlewares/isSuperAdmin";
-import { newProjectByTattooArtist } from "../controllers/portfolios";
+import { deleteProject, newProjectByTattooArtist } from "../controllers/portfoliosControllers";
 
 const router = Router()
 
@@ -32,6 +32,7 @@ router.put('/update',auth,updateUser)
 router.put('/superAdmin/createNewTattooArtist',isSuperAdmin,newTattooArtist)
 router.delete('/cancelAppointment',auth,cancelAppointment)
 router.delete('/superAdmin/deleteUser',auth,isSuperAdmin,deleteUser)
+router.delete('/tattooArtist/portfolio/delete',auth,isTattooArtist,deleteProject)
 
 
 export { router }
