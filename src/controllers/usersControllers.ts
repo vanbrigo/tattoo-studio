@@ -112,7 +112,7 @@ const updateUser = async(req: Request, res: Response) => {
     const userToUpdate = req.token.id
     const userUpdated = await User.update({ id: userToUpdate }, req.body)
     if (userUpdated.affected) {
-      return res.json(`User successfully updated`)
+      return res.json(`User updated successfully`)
     }
     return res.json('User cant be update')
 
@@ -276,6 +276,7 @@ const getAllAppointmentsByTattooArtistId = async(req: Request, res: Response) =>
       )
       
     } catch (error) {
+      console.log(error)
       return res.json(
         {
           success: false,
@@ -340,15 +341,24 @@ const getAllClients = async (req: Request, res: Response) => {
 
 const updateProfile = async(req: Request, res: Response) => {
   try {
-    const userToUpdate = req.token.id
-    const userUpdated = await Profile.update({ id: userToUpdate }, req.body)
-    if (userUpdated.affected) {
-      return res.json(`Profile successfully updated`)
+    const user= req.token.id
+    const profileIdToUpdate = req.body.id
+    const profileToUpdate = await Profile.findOneBy({id:profileIdToUpdate})
+    if (user !== profileToUpdate?.user_id){
+      return res.json({
+        success:true,
+        message: 'Profile not found'
+      })
+    }
+    const profileUpdated = await Profile.update({ id: profileIdToUpdate}, req.body)
+    if (profileUpdated.affected) {
+      return res.json(`Profile updated successfully`)
     }
     return res.json('Profile cant be update')
 
   } catch {
     return res.json('Profile cant be update')
+
   }
      
 }
@@ -365,5 +375,6 @@ export {
   getAllAppointmentsByUserId,
   newTattooArtist,
   deleteUser,
-  getAllClients
+  getAllClients,
+  updateProfile
 }

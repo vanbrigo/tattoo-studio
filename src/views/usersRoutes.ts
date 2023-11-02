@@ -7,6 +7,7 @@ import { addProfile,
     login, 
     newTattooArtist, 
     register, 
+    updateProfile, 
     updateUser } from "../controllers/usersControllers";
 import { auth } from "../middlewares/auth";
 import { cancelAppointment, newAppointmentTaken } from "../controllers/appointmentsControllers";
@@ -29,6 +30,7 @@ router.post('/profile',auth,addProfile)
 router.post('/newAppointment',auth,newAppointmentTaken)
 router.post('/tattooArtist/portfolio/new',auth,isTattooArtist,newProjectByTattooArtist)
 router.put('/update',auth,updateUser)
+router.put('/profile/update',auth,updateProfile)
 router.put('/superAdmin/createNewTattooArtist',isSuperAdmin,newTattooArtist)
 router.delete('/cancelAppointment',auth,cancelAppointment)
 router.delete('/superAdmin/deleteUser',auth,isSuperAdmin,deleteUser)

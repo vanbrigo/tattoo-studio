@@ -1,5 +1,6 @@
 import "reflect-metadata"
 import { DataSource } from "typeorm"
+import 'dotenv/config'
 import { Users1698173399028 } from "./migration/1698173399028-users"
 import { AppointmentsAvailable1698174598963 } from "./migration/1698174598963-appointments_available"
 import { Appointments1698175689683 } from "./migration/1698175689683-appointments"

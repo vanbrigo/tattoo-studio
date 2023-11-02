@@ -12,7 +12,7 @@ export class Profiles1698178031977 implements MigrationInterface {
                         type: "int",
                         isPrimary: true,
                         isGenerated: true,
-                        generationStrategy: "increment",
+                        generationStrategy: "increment"
                     },
                     {
                         name: "birthdate",

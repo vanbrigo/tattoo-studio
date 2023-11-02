@@ -1,4 +1,4 @@
-import { BaseEntity, Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm"
+import { BaseEntity, Column, Entity, JoinTable, ManyToMany, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm"
 import { Appointment_available } from "./Appointment_available"
 import { Profile } from "./Profile"
 import { Portfolio } from "./Portfolio"
@@ -40,7 +40,9 @@ export class User extends BaseEntity{
   portfolio!: Portfolio[]
 
   @OneToMany(() => Appointment, (appointment) => appointment.user)
-  appointments!: Appointment[];
+  appointments!: Appointment[]
 
+  @OneToOne(() => Profile, (profile) => profile.user)
+  profile!: Profile
 
 }

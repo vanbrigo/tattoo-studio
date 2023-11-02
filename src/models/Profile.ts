@@ -1,4 +1,5 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm"
+import { BaseEntity, Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm"
+import { User } from "./User"
 
 @Entity("profiles")
 export class Profile extends BaseEntity{
@@ -16,5 +17,9 @@ export class Profile extends BaseEntity{
   
     @Column()
     user_id!: number
-  
+
+    @OneToOne(() => User, (user) => user.profile) 
+    @JoinColumn({name:"user_id"})
+    user!: User
+
 }
