@@ -17,6 +17,6 @@ export class Portfolio extends BaseEntity{
 
   @ManyToOne(() => User, (user) => user.portfolio)
   @JoinColumn({ name: "user_id" })
-  user!: User;
+  user!: User
 
 }

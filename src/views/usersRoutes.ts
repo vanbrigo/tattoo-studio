@@ -12,6 +12,7 @@ import { auth } from "../middlewares/auth";
 import { cancelAppointment, newAppointmentTaken } from "../controllers/appointmentsControllers";
 import { isTattooArtist } from "../middlewares/isTattooArtist";
 import { isSuperAdmin } from "../middlewares/isSuperAdmin";
+import { newProjectByTattooArtist } from "../controllers/portfolios";
 
 const router = Router()
 
@@ -26,6 +27,7 @@ router.post('/register',register)
 router.post('/login',login)
 router.post('/profile',auth,addProfile)
 router.post('/newAppointment',auth,newAppointmentTaken)
+router.post('/tattooArtist/portfolio/new',auth,isTattooArtist,newProjectByTattooArtist)
 router.put('/update',auth,updateUser)
 router.put('/superAdmin/createNewTattooArtist',isSuperAdmin,newTattooArtist)
 router.delete('/cancelAppointment',auth,cancelAppointment)
