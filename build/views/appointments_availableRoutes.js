@@ -1,0 +1,13 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.router = void 0;
+const express_1 = require("express");
+const appointments_availableControllers_1 = require("../controllers/appointments_availableControllers");
+const isTattooArtist_1 = require("../middlewares/isTattooArtist");
+const auth_1 = require("../middlewares/auth");
+const router = (0, express_1.Router)();
+exports.router = router;
+router.get('/all', appointments_availableControllers_1.getAllAppointmentsAvailable);
+router.post('/new', auth_1.auth, isTattooArtist_1.isTattooArtist, appointments_availableControllers_1.newAppointmentAvailable);
+router.put('/update', auth_1.auth, isTattooArtist_1.isTattooArtist, appointments_availableControllers_1.updateAppointmentAvailable);
+router.delete('/delete', auth_1.auth, isTattooArtist_1.isTattooArtist, appointments_availableControllers_1.deleteAppointmentAvailable);
