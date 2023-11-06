@@ -7,6 +7,9 @@ const newAppointmentTaken = async (req: Request, res: Response) => {
     try {
         const {appointment_available_id,purpose} = req.body
         const user_id = req.token.id
+        if(purpose!=="tattoo" || purpose !=="piercing"){
+            return res.json('You need to insert a valid purpose. Tattoo or piercing.')
+        }
 
         const appointmentToTake= await Appointment_available.findOneBy({id:appointment_available_id})
         if(!appointmentToTake?.is_available){
