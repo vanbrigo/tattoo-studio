@@ -116,7 +116,7 @@ const updateUser = async(req: Request, res: Response) => {
     }
     return res.json('User cant be update')
 
-  } catch {
+  } catch (error){
     return res.json('User cant be update')
   }
      
@@ -125,14 +125,18 @@ const updateUser = async(req: Request, res: Response) => {
 const newTattooArtist = async(req: Request, res: Response) => {
   try {
     const userToUpdate = req.body.id
+    const userRole=req.body.role
+    console.log(req.body)
     const userUpdated = await User.update({ id: userToUpdate }, req.body)
     if (userUpdated.affected) {
       return res.json(`New tattoo artist created`)
     }
     return res.json('User cant be update')
 
-  } catch {
+  } catch (error){
+    console.log(error)
     return res.json('User cant be update')
+    
   }
 }
 
