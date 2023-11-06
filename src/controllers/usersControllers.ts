@@ -126,7 +126,6 @@ const newTattooArtist = async(req: Request, res: Response) => {
   try {
     const userToUpdate = req.body.id
     const userRole=req.body.role
-    console.log(req.body)
     const userUpdated = await User.update({ id: userToUpdate }, req.body)
     if (userUpdated.affected) {
       return res.json(`New tattoo artist created`)
@@ -134,7 +133,6 @@ const newTattooArtist = async(req: Request, res: Response) => {
     return res.json('User cant be update')
 
   } catch (error){
-    console.log(error)
     return res.json('User cant be update')
     
   }
@@ -235,6 +233,8 @@ const getAllAppointmentsByTattooArtistId = async(req: Request, res: Response) =>
   const getAllTattooArtists = async (req: Request, res: Response) => {
     try {
       const tattooArtists = await User.find({
+        select:{name:true,
+                phone_number:true},
         where:{role:"tattoo_artist"}
       })
   
