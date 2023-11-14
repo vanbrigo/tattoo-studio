@@ -93,7 +93,8 @@ const login = async (req: Request, res: Response) => {
             {
                 success: true,
                 message: "User logged succesfully",
-                token: token
+                token: token,
+                data:user.name
             }
         )
     } catch (error) {
@@ -150,7 +151,8 @@ const getAllAppointmentsByTattooArtistId = async(req: Request, res: Response) =>
           time:true,
           appointment:{purpose:true}
         },
-        relations:['appointment'] 
+        relations:['appointment'],
+        order:{date:'ASC'}
     })
       return res.json({
         success: true,
@@ -173,6 +175,7 @@ const getAllAppointmentsByTattooArtistId = async(req: Request, res: Response) =>
           user_id: req.token.id
         },
         select:{
+          id:true,
           purpose:true,
           appointmentA:{
             date:true,
