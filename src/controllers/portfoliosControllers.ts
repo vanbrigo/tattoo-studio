@@ -64,7 +64,38 @@ const deleteProject = async(req:Request, res:Response)=>{
         return res.send(error)
     }
 }
+const getAllWorks = async (req: Request, res: Response) => {
+    try {
+      const portfolios = await Portfolio.find({
+        select:{
+          id:true,
+          title:true,
+          image_url:true,
+          user_id:true,
+          user:{name:true}
+        },
+        relations:{user:true}
+      })
+      return res.json(
+        {
+          success: true,
+          message: "Works retrieved",
+          data: portfolios
+        }
+      )
+  
+    } catch (error) {
+      return res.json(
+        {
+          success: false,
+          message: "Works cant be retrieved",
+          error: error
+        }
+      )
+    }
+  }
 
 export {newProjectByTattooArtist,
-    deleteProject
+    deleteProject,
+    getAllWorks
 }

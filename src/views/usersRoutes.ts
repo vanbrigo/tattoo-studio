@@ -4,26 +4,31 @@ import { addProfile,
     getAllAppointmentsByTattooArtistId, 
     getAllAppointmentsByUserId, getAllClients, getAllTattooArtists, 
     getAppointmentsTakenByTattooArtistId, 
+    getTattooArtistAppointments, 
+    getUserProfile, 
     login, 
     newTattooArtist, 
     register, 
     updateProfile, 
     updateUser } from "../controllers/usersControllers";
 import { auth } from "../middlewares/auth";
-import { cancelAppointment, newAppointmentTaken } from "../controllers/appointmentsControllers";
+import { cancelAppointment, getAllAppointmentsBooked, newAppointmentTaken } from "../controllers/appointmentsControllers";
 import { isTattooArtist } from "../middlewares/isTattooArtist";
 import { isSuperAdmin } from "../middlewares/isSuperAdmin";
-import { deleteProject, newProjectByTattooArtist } from "../controllers/portfoliosControllers";
+import { deleteProject, getAllWorks, newProjectByTattooArtist } from "../controllers/portfoliosControllers";
 
 const router = Router()
 
-router.get('/profile', )
+router.get('/profile',auth, getUserProfile)
 router.get('/portfolio',)
 router.get('/tattooArtist/appointments',auth,getAllAppointmentsByTattooArtistId)
 router.get('/tattooArtistsAvailable',getAllTattooArtists)
 router.get('/tattooArtist/appointmentsTaken',auth,isTattooArtist,getAppointmentsTakenByTattooArtistId)
+router.get('/tattooArtist/my-schedule',auth,getTattooArtistAppointments)
 router.get('/myAppointments',auth,getAllAppointmentsByUserId )
 router.get('/superAdmin/clients',auth,isSuperAdmin,getAllClients)
+router.get('/all-appointments-booked',auth,isSuperAdmin,getAllAppointmentsBooked)
+router.get('/tattooArtist/gallery',getAllWorks)
 router.post('/register',register)
 router.post('/login',login)
 router.post('/profile',auth,addProfile)

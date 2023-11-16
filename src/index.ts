@@ -6,6 +6,8 @@ import { router as routerUsers} from "./views/usersRoutes"
 import { router as routerAppointmentsAvailable } from "./views/appointments_availableRoutes"
 
 
+
+
 const app=express()
 app.use(cors())
 app.use(express.json())
@@ -13,6 +15,7 @@ const PORT = process.env.PORT || 3000
 
 app.use('/user', routerUsers)
 app.use('/appointment_available', routerAppointmentsAvailable)
+
 
 AppDataSource.initialize()
     .then(() => {

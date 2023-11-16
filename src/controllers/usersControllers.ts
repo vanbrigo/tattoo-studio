@@ -86,7 +86,7 @@ const login = async (req: Request, res: Response) => {
             },
             process.env.JWT_SECRET as string,
             {
-                expiresIn: "3h",
+                expiresIn: "24h",
             }
         )
         return res.json(
@@ -138,7 +138,42 @@ const newTattooArtist = async(req: Request, res: Response) => {
     
   }
 }
-
+const getTattooArtistAppointments = async(req: Request, res: Response) => {
+  try {
+    const today = new Date()
+    const todaySpain=new Date(today.toLocaleString("en-US", { timeZone: "Europe/Madrid" }))
+    todaySpain.setHours(0, 0, 0, 0)
+    const appointmentsTaken = await Appointment_available.find({
+      where:{ 
+        tattoo_artist_id: req.token.id,
+        date: MoreThanOrEqual(todaySpain)
+      },
+      select:{
+        id:true,
+        date:true,
+        time:true,
+        is_available:true,
+        appointment:{
+          purpose:true,
+          user:{name:true,phone_number:true}
+        }
+      },
+      relations: ["appointment","appointment.user"],
+      order:{date:'ASC'}
+  })
+    return res.json({
+      success: true,
+      message: "Appointments by user retrieved",
+      data:appointmentsTaken
+    })
+  } catch (error) {
+    return res.json({
+      success: false,
+      message: "Appointments cant by user retrieved",
+      error: error
+    })
+  }
+}
 const getAllAppointmentsByTattooArtistId = async(req: Request, res: Response) => {
     try {
       const appointments = await Appointment_available.find({
@@ -237,7 +272,9 @@ const getAllAppointmentsByTattooArtistId = async(req: Request, res: Response) =>
     try {
       const tattooArtists = await User.find({
         select:{name:true,
-                phone_number:true},
+                id:true,
+                phone_number:true,
+                email:true},
         where:{role:"tattoo_artist"}
       })
   
@@ -322,6 +359,7 @@ const getAllClients = async (req: Request, res: Response) => {
         id:true,
         name:true,
         email:true,
+        phone_number:true,
         is_active:true
       },
       where:{role:"user"}
@@ -340,6 +378,38 @@ const getAllClients = async (req: Request, res: Response) => {
       {
         success: false,
         message: "Clients cant be retrieved",
+        error: error
+      }
+    )
+  }
+}
+
+const getUserProfile = async (req: Request, res: Response) => {
+  try {
+    const profile = await Profile.findOne({
+      where:{user_id:req.token.id},
+      select:{
+        id:true,
+        birthdate:true,
+        gender:true,
+        address:true,
+        user:{name:true,email:true,phone_number:true}
+      },
+      relations:{user:true}
+    })
+    return res.json(
+      {
+        success: true,
+        message: "Profile retrieved",
+        data: profile
+      }
+    )
+
+  } catch (error) {
+    return res.json(
+      {
+        success: false,
+        message: "Profile cant be retrieved",
         error: error
       }
     )
@@ -383,5 +453,7 @@ export {
   newTattooArtist,
   deleteUser,
   getAllClients,
-  updateProfile
+  updateProfile,
+  getUserProfile,
+  getTattooArtistAppointments
 }

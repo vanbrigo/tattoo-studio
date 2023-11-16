@@ -1,6 +1,7 @@
 import { Request, Response } from "express"
 import { Appointment } from "../models/Appointment"
 import { Appointment_available } from "../models/Appointment_available"
+import { MoreThanOrEqual } from "typeorm"
 
 
 const newAppointmentTaken = async (req: Request, res: Response) => {
@@ -83,4 +84,38 @@ const cancelAppointment = async(req:Request, res:Response)=>{
         return res.send(error)
     }
 }
-export {newAppointmentTaken,cancelAppointment}
+
+const getAllAppointmentsBooked = async(req:Request, res:Response)=>{
+    try {
+        const today = new Date()
+        today.setHours(0, 0, 0, 0)
+        const appointmentsBooked = await Appointment_available.find({
+            where: {
+                is_available:false,
+                date: MoreThanOrEqual(today)},
+            select:{
+                id:true,
+                date:true,
+                time:true,
+                user:{name:true},
+                appointment:{purpose:true,user:{name:true,phone_number:true,email:true}}
+                },
+                relations:['user','appointment','user.appointments'],
+                order:{date:'ASC'}
+            
+        })
+        
+        
+        return res.json({success: true,
+            message: `Appointments booked retrieved successfully`,
+            data: appointmentsBooked})
+    } catch (error) {
+        return res.json({
+            success: false,
+            message: "Appointments booked cant be retrieved",
+            error: error
+          })
+    }
+}
+
+export {newAppointmentTaken,cancelAppointment,getAllAppointmentsBooked}
