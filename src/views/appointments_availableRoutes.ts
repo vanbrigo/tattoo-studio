@@ -9,6 +9,6 @@ router.get('/all',getAllAppointmentsAvailable)
 router.get('/',auth,getAllAppointmentsA)
 router.post('/new',auth,isTattooArtist,newAppointmentAvailable)
 router.put('/update',auth,isTattooArtist,updateAppointmentAvailable)
-router.delete('/delete',auth,isTattooArtist,deleteAppointmentAvailable)
+router.delete('/delete/:id',auth,isTattooArtist,deleteAppointmentAvailable)
 
 export { router }

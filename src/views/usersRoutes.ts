@@ -37,7 +37,7 @@ router.post('/tattooArtist/portfolio/new',auth,isTattooArtist,newProjectByTattoo
 router.put('/update',auth,updateUser)
 router.put('/profile/update',auth,updateProfile)
 router.put('/superAdmin/createNewTattooArtist',auth,isSuperAdmin,newTattooArtist)
-router.delete('/cancelAppointment',auth,cancelAppointment)
+router.delete('/cancelAppointment/:id',auth,cancelAppointment)
 router.delete('/superAdmin/deleteUser',auth,isSuperAdmin,deleteUser)
 router.delete('/tattooArtist/portfolio/delete',auth,isTattooArtist,deleteProject)
 

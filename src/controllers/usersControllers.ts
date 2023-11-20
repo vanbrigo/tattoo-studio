@@ -218,7 +218,8 @@ const getAllAppointmentsByTattooArtistId = async(req: Request, res: Response) =>
             user:{name:true}
           }
         },
-        relations:['appointmentA','appointmentA.user']
+        relations:['appointmentA','appointmentA.user'],
+        order:{appointmentA:{date:'ASC'}}
     })
       return res.json({
         success: true,

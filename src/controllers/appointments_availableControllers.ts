@@ -52,16 +52,13 @@ const newAppointmentAvailable = async (req: Request, res: Response) => {
 
 const updateAppointmentAvailable = async(req: Request, res: Response) => {
     try {
-        const {date,time,tattoo_artist_id,id,is_available}=req.body
+        const {time,id}=req.body
         const appointmentAvailableUpdated= await Appointment_available.update(
             {
                 id
             }, 
             {
-                date,
-                time,
-                tattoo_artist_id,
-                is_available
+                time
             })
     if (appointmentAvailableUpdated.affected) {
         return res.json(`Appointment successfully updated`) 
@@ -73,10 +70,10 @@ const updateAppointmentAvailable = async(req: Request, res: Response) => {
 
 const deleteAppointmentAvailable = async(req:Request, res:Response)=>{
     try {
-        const appointmentAvailableIdToDelete = req.body.id
+        const appointmentAvailableIdToDelete = req.params.id
         const appointmentAvailableDeleted = await Appointment_available.delete(
             {
-            id:appointmentAvailableIdToDelete
+            id:parseInt(appointmentAvailableIdToDelete)
             }
         )
         if(appointmentAvailableDeleted.affected){

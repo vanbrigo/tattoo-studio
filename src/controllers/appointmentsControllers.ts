@@ -45,12 +45,12 @@ const newAppointmentTaken = async (req: Request, res: Response) => {
 
 const cancelAppointment = async(req:Request, res:Response)=>{
     try {
-        const appointmentIdToCancel = req.body.id
+        const appointmentIdToCancel = req.params.id
         const user_id= req.token.id
         const appointmentToCancel = await Appointment.findOne(
             {
               where: {
-                id: appointmentIdToCancel
+                id: parseInt(appointmentIdToCancel)
               },
               relations: {
                 appointmentA: true
@@ -67,7 +67,7 @@ const cancelAppointment = async(req:Request, res:Response)=>{
         }
         const appointmentCanceled = await Appointment.delete(
             {
-            id:appointmentIdToCancel
+            id:parseInt(appointmentIdToCancel)
             }
         )
         if(appointmentCanceled.affected){
@@ -98,7 +98,10 @@ const getAllAppointmentsBooked = async(req:Request, res:Response)=>{
                 date:true,
                 time:true,
                 user:{name:true},
-                appointment:{purpose:true,user:{name:true,phone_number:true,email:true}}
+                appointment:{
+                    purpose:true,
+                    user_id:true
+                }
                 },
                 relations:['user','appointment','user.appointments'],
                 order:{date:'ASC'}
